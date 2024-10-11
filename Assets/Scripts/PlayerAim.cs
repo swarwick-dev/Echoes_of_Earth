@@ -9,8 +9,13 @@ public class PlayerAim : MonoBehaviour
     private GamepadCursor gamepadCursor;
     private RaycastHit lastAimHit;
 
+    [Header("Aim Visual")]
+    [SerializeField] private LineRenderer aimLaser;
+    
     [Header("Aim Control")]
     [SerializeField] private Transform aimTarget;
+    [SerializeField] private bool aimPrecise = true;
+    [SerializeField] private bool aimAssist = true;
 
     [Header("Camera Control")]
     [SerializeField] private float cameraSensitivity = 4f;
@@ -31,11 +36,59 @@ public class PlayerAim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if ( Input.GetKeyDown(KeyCode.P) ) 
+            aimPrecise = !aimPrecise;
+
+        if ( Input.GetKeyDown(KeyCode.L) )
+            aimAssist = !aimAssist;
+
+        UpdateAimPosition();   
+        UpdateCameraPosition();
+        UpdateAimLaser();
+    }
+    
+    private void UpdateAimLaser() {
+        float aimLaserLength = 0.5f;
+        float gunDistance = 4f;
+
+        Transform gunPoint = player.weapon.GunPoint();
+        Vector3 aimPoint = player.weapon.BulletDirection();
+        Vector3 endPoint = gunPoint.position + aimPoint * gunDistance;
+
+        if ( Physics.Raycast(gunPoint.position, aimPoint, out var hit, gunDistance) ) {
+            endPoint = hit.point;
+            aimLaserLength = 0f;
+        }
+
+        aimLaser.SetPosition(0, gunPoint.position);
+        aimLaser.SetPosition(1, endPoint);
+        aimLaser.SetPosition(2, endPoint + aimPoint * aimLaserLength);
+    }
+    
+    private void UpdateAimPosition() {
+        Transform target = Target();
+
+        if ( target != null && aimAssist ) {
+            aimTarget.position = target.position;
+            return;
+        }
+
         aimTarget.position = GetAimHitInfo().point;
-        aimTarget.position = new Vector3(aimTarget.position.x, transform.position.y + 1, aimTarget.position.z); 
-        cameraTarget.position = Vector3.Lerp(cameraTarget.position, DesiredCameraPosition(), cameraSensitivity * Time.deltaTime);
+        if ( !CanAimPrecisely() )
+            aimTarget.position = new Vector3(aimTarget.position.x, transform.position.y + 1, aimTarget.position.z); 
     }
 
+    public Transform Aim() => aimTarget;
+    public Transform Target() {
+        Transform target = null;
+
+        if ( GetAimHitInfo().transform.GetComponent<Target>() != null )
+            target = GetAimHitInfo().transform;
+
+        return target;
+    }
+
+ 
     public RaycastHit GetAimHitInfo() {
 
         if ( Gamepad.current != null ) {
@@ -54,6 +107,19 @@ public class PlayerAim : MonoBehaviour
         return lastAimHit;
     }
 
+    private void AssignInputEvents() {
+        controls = player.controls;
+
+        controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
+        controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
+    }
+
+    public bool CanAimPrecisely() => aimPrecise;
+
+    #region Camrea Region
+    private void UpdateCameraPosition() {
+        cameraTarget.position = Vector3.Lerp(cameraTarget.position, DesiredCameraPosition(), cameraSensitivity * Time.deltaTime);
+    }
     private Vector3 DesiredCameraPosition() {
         Vector3 desiredCameraPosition = GetAimHitInfo().point;
         Vector3 aimDirection = (desiredCameraPosition - transform.position).normalized;
@@ -69,10 +135,5 @@ public class PlayerAim : MonoBehaviour
         return desiredCameraPosition;
     }
 
-    private void AssignInputEvents() {
-        controls = player.controls;
-
-        controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
-        controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
-    }
+    #endregion
 }
