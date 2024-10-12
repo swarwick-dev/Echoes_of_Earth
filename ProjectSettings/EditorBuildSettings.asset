@@ -4,11 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/TrainingGround.unity
-    guid: 6613bc2ed990d45ffb0df41f5e4b6eca
+  m_Scenes: []
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: bbc16bdd8d194407297b4b695f2d8e76, type: 2}
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 55c890b9967a74c7fbb0ea365f286a19, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: f89fedbcbf9ea6c43989f676ad3f0ca1, type: 3}
   m_UseUCBPForAssetBundles: 0
