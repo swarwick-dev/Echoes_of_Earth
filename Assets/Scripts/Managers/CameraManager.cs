@@ -6,8 +6,6 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager instance;
-
-
     private CinemachineCamera virtualCamera;
     private CinemachinePositionComposer transposer;
 

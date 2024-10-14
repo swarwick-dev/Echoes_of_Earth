@@ -6,7 +6,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public Player player;
+    public GameObject playerPrefab;
+    public Player player {get; private set;}
+    public ControlsManager controlsManager { get; private set; }
+    public InputSystem_Actions controls { get; private set; }
+    public GameObject playerObj { get; private set; }
 
     [Header("Settings")]
     public bool friendlyFire;
@@ -16,14 +20,29 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-        player = FindFirstObjectByType<Player>();
+    void Start() {
+        controlsManager = new ControlsManager();
+        controls = controlsManager.controls;
+        controls.UI.Enable();
+        
+        //playerObj = Instantiate(playerPrefab, new Vector3(0, 0.5f, 0), Quaternion.identity);
+        //DontDestroyOnLoad(playerObj);
+        //player = playerObj.GetComponent<Player>();
     }
 
   
-    public void GameStart()
+    public void GameStart(int missionIndex)
     {
-        SetDefaultWeaponsForPlayer();
+        controls.UI.Disable();
+        controls.Character.Enable();
+        controls.Car.Disable();
+
+        StartCoroutine(WaitForSceneToLoad(missionIndex));
+
+       
 
         //LevelGenerator.instance.InitializeGeneration();
         // We start selected mission in a LevelGenerator script ,after we done with level creation.
@@ -48,5 +67,17 @@ public class GameManager : MonoBehaviour
     {
         List<Weapon_Data> newList = UI.instance.weaponSelection.SelectedWeaponData();
         player.weapon.SetDefaultWeapon(newList);
+    }
+
+    private IEnumerator WaitForSceneToLoad(int sceneNumber)
+    {
+        var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneNumber, LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone)
+        {
+            yield return null;
+        }
+        
+        player = FindFirstObjectByType<Player>();
+        SetDefaultWeaponsForPlayer();
     }
 }

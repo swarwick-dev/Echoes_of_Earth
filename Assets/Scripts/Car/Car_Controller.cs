@@ -17,7 +17,7 @@ public class Car_Controller : MonoBehaviour
     public Car_Sounds carSounds { get; private set; }
     public Rigidbody rb { get; private set; }
     public bool carActive { get; private set; }
-    private PlayerControls controls;
+    private InputSystem_Actions controls;
     private float moveInput;
     private float steerInput;
 

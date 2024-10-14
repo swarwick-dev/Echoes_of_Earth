@@ -9,7 +9,7 @@ public class Player_Interaction : MonoBehaviour
     private void Start()
     {
         Player player = GetComponent<Player>();
-        player.controls.Character.Interaction.performed += context => InteractWithClosest();
+        player.controls.Interact.performed += context => InteractWithClosest();
     }
 
     private void InteractWithClosest()

@@ -250,20 +250,20 @@ public class Player_WeaponController : MonoBehaviour
 
     private void AssignInputEvents()
     {
-        PlayerControls controls = player.controls;
+        InputSystem_Actions.CharacterActions controls = player.controls;
 
-        controls.Character.Fire.performed += context => isShooting = true;
-        controls.Character.Fire.canceled += context => isShooting = false;
+        controls.Fire.performed += context => isShooting = true;
+        controls.Fire.canceled += context => isShooting = false;
 
-        controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
-        controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
-        controls.Character.EquipSlot3.performed += context => EquipWeapon(2);
-        controls.Character.EquipSlot4.performed += context => EquipWeapon(3);
-        controls.Character.EquipSlot5.performed += context => EquipWeapon(4);
+        // controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
+        // controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
+        // controls.Character.EquipSlot3.performed += context => EquipWeapon(2);
+        // controls.Character.EquipSlot4.performed += context => EquipWeapon(3);
+        // controls.Character.EquipSlot5.performed += context => EquipWeapon(4);
 
-        controls.Character.DropCurrentWeapon.performed += context => DropWeapon();
+        // controls.Character.DropCurrentWeapon.performed += context => DropWeapon();
 
-        controls.Character.Reload.performed += context =>
+        controls.Interact.performed += context =>
         {
             if (currentWeapon.CanReload() && WeaponReady())
             {
@@ -271,7 +271,7 @@ public class Player_WeaponController : MonoBehaviour
             }
         };
 
-        controls.Character.ToogleWeaponMode.performed += context => currentWeapon.ToggleBurst();
+        //controls.Character.ToogleWeaponMode.performed += context => currentWeapon.ToggleBurst();
 
     }
 

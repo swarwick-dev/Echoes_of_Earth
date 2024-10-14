@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class UI : MonoBehaviour
 {
@@ -22,24 +24,25 @@ public class UI : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
+        
+    }
+    private void Start()
+    {
         inGameUI = GetComponentInChildren<UI_InGame>(true);
         weaponSelection = GetComponentInChildren<UI_WeaponSelection>(true);
         gameOverUI = GetComponentInChildren<UI_GameOver>(true);
         settingsUI = GetComponentInChildren<UI_Settings>(true);
-    }
-    private void Start()
-    {
-        AssignInputsUI();
-
-        StartCoroutine(ChangeImageAlpha(0, 1.5f, null));
+        ControlsManager.instance.SwitchToUIControls();
+        //StartCoroutine(ChangeImageAlpha(0, 1.5f, null));
 
 
         // Remove this if statement before build, it's for easier testing
-        if (GameManager.instance.quickStart)
-        {
-            LevelGenerator.instance.InitializeGeneration();
-            StartTheGame();
-        }
+        //if (GameManager.instance.quickStart)
+        //{
+        //    LevelGenerator.instance.InitializeGeneration();
+        //    StartTheGame();
+        //}
     }
     public void SwitchTo(GameObject uiToSwitchOn)
     {
@@ -54,9 +57,8 @@ public class UI : MonoBehaviour
             settingsUI.LoadSettings();
     }
 
-    public void StartTheGame() => StartCoroutine(StartGameSequence());
+    public void StartTheGame(int sceneNumber) => GameManager.instance.GameStart(sceneNumber);//StartCoroutine(StartGameSequence(sceneNumber));
 
-    public void QuitTheGame() => Application.Quit();
     public void StartLevelGeneration() => LevelGenerator.instance.InitializeGeneration();
 
     public void RestartTheGame()
@@ -67,7 +69,6 @@ public class UI : MonoBehaviour
     public void PauseSwitch()
     {
         bool gamePaused = pauseUI.activeSelf;
-
         if (gamePaused)
         {
             SwitchTo(inGameUI.gameObject);
@@ -104,14 +105,14 @@ public class UI : MonoBehaviour
 
     }
 
-    private void AssignInputsUI()
-    {
-        PlayerControls controls = GameManager.instance.player.controls;
-
-        controls.UI.UIPause.performed += ctx => PauseSwitch();
+    public void QuitTheGame() {
+        if (Application.isEditor)
+            UnityEditor.EditorApplication.isPlaying = false;
+        else
+            Application.Quit();
     }
 
-    private IEnumerator StartGameSequence()
+    private IEnumerator StartGameSequence(int sceneNumber = 1)
     {
         bool quickStart = GameManager.instance.quickStart;
 
@@ -125,13 +126,17 @@ public class UI : MonoBehaviour
         }
 
         yield return null;
-        SwitchTo(inGameUI.gameObject);
-        GameManager.instance.GameStart();
+       
+        GameManager.instance.GameStart(sceneNumber);
 
         if(quickStart)
             StartCoroutine(ChangeImageAlpha(0,.1f, null));
         else
             StartCoroutine(ChangeImageAlpha(0,1f, null));
+    }
+
+    public void LoadScene(string sceneName) {
+        SceneManager.LoadScene(sceneName);
     }
 
     private IEnumerator ChangeImageAlpha(float targetAlpha, float duration,System.Action onComplete)
@@ -154,6 +159,15 @@ public class UI : MonoBehaviour
 
         // Call the cimpletion method if it exists
         onComplete?.Invoke();
+    }
+
+    public void SwitchAllUIOff() {
+        foreach (GameObject go in UIElements)
+            go.SetActive(false);
+
+    }
+    public void LoadMainMenu() {
+        SceneManager.LoadScene(0);
     }
 
     [ContextMenu("Assign Audio To Buttons")]

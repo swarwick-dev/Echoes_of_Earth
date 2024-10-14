@@ -20,7 +20,6 @@ public class Car_Interaction : Interactable
     {
         carHealthController = GetComponent<Car_HealthController>();
         carController = GetComponent<Car_Controller>();
-        player = GameManager.instance.player.transform;
 
         foreach (var point in exitPoints)
         {
@@ -37,6 +36,7 @@ public class Car_Interaction : Interactable
 
     private void GetIntoTheCar()
     {
+        player = GameManager.instance.player.transform;
         ControlsManager.instance.SwitchToCarControls();
         carHealthController.UpdateCarHealthUI();
         carController.ActivateCar(true);

@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     public Transform playerBody;
 
-    public PlayerControls controls { get; private set; }
+    public InputSystem_Actions.CharacterActions controls { get; private set; }
     public Player_AimController aim { get; private set; }
     public Player_Movement movement { get; private set; }
     public Player_WeaponController weapon { get; private set; }
@@ -29,15 +29,17 @@ public class Player : MonoBehaviour
         weaponVisuals = GetComponent<Player_WeaponVisuals>();
         interaction = GetComponent<Player_Interaction>();
         sound = GetComponent<Player_SoundFX>();
-        controls = ControlsManager.instance.controls;
+        controls = ControlsManager.instance.controls.Character;
+
+        
     }
 
 
     private void OnEnable()
     {
         controls.Enable();
-        controls.Character.UIMissionToolTipSwitch.performed += ctx => UI.instance.inGameUI.SwitchMissionTooltip();
-        controls.Character.UIPause.performed += ctx => UI.instance.PauseSwitch();
+        controls.MissionHelp.performed += ctx => UI.instance.inGameUI.SwitchMissionTooltip();
+        controls.Pause.performed += ctx => UI.instance.PauseSwitch();
     }
     private void OnDisable()
     {

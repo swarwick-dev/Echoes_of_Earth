@@ -6,7 +6,7 @@ public class Player_Movement : MonoBehaviour
     private Player player;
 
     private CharacterController characterController;
-    private PlayerControls controls;
+    private InputSystem_Actions.CharacterActions controls;
     private Animator animator;
 
     [Header("Movement info")]
@@ -124,21 +124,21 @@ public class Player_Movement : MonoBehaviour
     {
         controls = player.controls;
 
-        controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
-        controls.Character.Movement.canceled += context =>
+        controls.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
+        controls.Movement.canceled += context =>
         {
             StopFootstepsSFX();
             moveInput = Vector2.zero;
         };
 
-        controls.Character.Run.performed += context =>
+        controls.Run.performed += context =>
         {
             speed = runSpeed;
             isRunning = true;
         };
 
 
-        controls.Character.Run.canceled += context =>
+        controls.Run.canceled += context =>
         {
             speed = walkSpeed;
             isRunning = false;

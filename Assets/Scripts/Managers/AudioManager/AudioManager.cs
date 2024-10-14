@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
+    public AudioMixer mixer;
 
     [SerializeField] private AudioSource[] bgm;
 
@@ -15,6 +17,10 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        mixer.SetFloat("sfx", PlayerPrefs.GetFloat("SFXVolume", 0.75f));
+        mixer.SetFloat("bgm", PlayerPrefs.GetFloat("MusicVolume", 0.75f));
     }
 
     private void Start()

@@ -36,7 +36,7 @@
                     "name": "Run",
                     "type": "Button",
                     "id": "322208ec-277c-4b80-bbe3-61aba45a2ce4",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -90,7 +90,7 @@
                     "name": "Drop Current Weapon",
                     "type": "Button",
                     "id": "657d131c-aaa1-42bb-8d0f-23f052c419f2",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -99,7 +99,7 @@
                     "name": "Reload",
                     "type": "Button",
                     "id": "2ab53d65-92fc-42a8-913c-b4eb5fa5546d",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -108,7 +108,7 @@
                     "name": "Toogle Weapon Mode",
                     "type": "Button",
                     "id": "a66fb886-267b-46da-8670-a45d89128af1",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -117,7 +117,7 @@
                     "name": "Interaction",
                     "type": "Button",
                     "id": "531c33b9-acc0-4d36-a2e6-763bc64d6bc1",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -135,7 +135,7 @@
                     "name": "UI Pause",
                     "type": "Button",
                     "id": "b93a2be4-711c-4e1a-9dc5-a0cc8d7fd558",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -146,17 +146,6 @@
                     "name": "",
                     "id": "02407c90-cf5c-4a3d-9733-6c0069ab2bcb",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "15f713e9-5b71-439f-be50-4270921f2d4f",
-                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -221,17 +210,6 @@
                 },
                 {
                     "name": "",
-                    "id": "1a51e1ef-04e4-40d1-bc7d-08761e13beff",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2e275601-cbb2-4711-b098-6fa49c0725c9",
                     "path": "<Mouse>/position",
                     "interactions": "",
@@ -243,30 +221,8 @@
                 },
                 {
                     "name": "",
-                    "id": "4f02c45a-ab3e-45b1-9595-d95447ed5673",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d43a758b-cece-4b97-926c-7e79a949430a",
                     "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4170f26f-7ac0-41be-a3f6-da36358ac79a",
-                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -309,30 +265,8 @@
                 },
                 {
                     "name": "",
-                    "id": "9b01eb84-fa77-430a-82cb-928b8ec5e556",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Drop Current Weapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b6845d16-f29e-4d90-95f2-78e5d7601496",
                     "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reload",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5a1f9a9f-c324-4362-8013-bb3f9f48ec45",
-                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -386,30 +320,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ec4c427e-dc44-4fdd-bc8e-688cde4c0285",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Toogle Weapon Mode",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "fc3fbabe-a9da-441a-90f4-34e7910d90f0",
                     "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Interaction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8467dc0f-300a-40da-9a49-7cf7030b4c29",
-                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -430,30 +342,8 @@
                 },
                 {
                     "name": "",
-                    "id": "461bd74d-610f-48e0-aa43-43ece2f6e259",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "UI Mission ToolTip Switch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3f1e4a94-3a5a-40b6-a78b-42d2f499c380",
                     "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "UI Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1e9e4026-a449-4415-ba02-11a1c6e9c5ce",
-                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -475,6 +365,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "015b68dd-15a4-4bfd-815c-a940731d8e85",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -491,12 +390,12 @@
                 },
                 {
                     "name": "",
-                    "id": "8922b11f-23e5-4e73-b3c7-c16928799b20",
-                    "path": "<Gamepad>/start",
+                    "id": "4a64aa31-9a59-4301-8f5f-79638723815e",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UI Pause",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -519,7 +418,7 @@
                     "name": "CarExit",
                     "type": "Button",
                     "id": "27ea6c3e-d824-44eb-b51a-ea97854554d6",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -528,7 +427,7 @@
                     "name": "Brake",
                     "type": "Button",
                     "id": "95b6a74a-0a28-45ae-bac7-21f2468b4013",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -592,17 +491,6 @@
                 },
                 {
                     "name": "",
-                    "id": "3e0a7fb2-3954-4a06-8ee6-87cf8f000159",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5b92fb43-f359-487e-9a02-9c0525b193ae",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -614,30 +502,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ff062aed-80ac-4b16-a6a4-46d5ae58f9b1",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CarExit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "99b1a15e-e55f-4f37-af8b-d6dedf42ba92",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Brake",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3f8c9471-97ef-4377-ab25-bc6de3a6bae9",
-                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

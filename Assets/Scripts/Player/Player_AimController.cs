@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class Player_AimController : MonoBehaviour
 {
     private Player player;
-    private PlayerControls controls;
+    private InputSystem_Actions.CharacterActions controls;
 
     [Header("Aim Viusal - Laser")]
     [SerializeField] private LineRenderer aimLaser; // this component is on the waepon holder(child of a player)
@@ -31,12 +31,10 @@ public class Player_AimController : MonoBehaviour
 
     private Vector2 mouseInput;
     private RaycastHit lastKnownMouseHit;
-    private GamepadCursor gamepadCursor;
 
     private void Start()
     {
         player = GetComponent<Player>();
-        gamepadCursor =  GetComponent<GamepadCursor>();
         AssignInputEvents();
     }
     private void Update()
@@ -135,11 +133,6 @@ public class Player_AimController : MonoBehaviour
     public bool CanAimPrecisly() => isAimingPrecisly;
     public RaycastHit GetMouseHitInfo()
     {
-        if ( Gamepad.current != null ) {
-            mouseInput = gamepadCursor.GetWarpPosition();
-        } else {
-            mouseInput = Mouse.current.position.ReadValue();
-        }
         Ray ray = Camera.main.ScreenPointToRay(mouseInput);
 
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
@@ -181,8 +174,8 @@ public class Player_AimController : MonoBehaviour
     {
         controls = player.controls;
 
-        controls.Character.Aim.performed += context => mouseInput = context.ReadValue<Vector2>();
-        controls.Character.Aim.canceled += context => mouseInput = Vector2.zero;
+        controls.Aim.performed += context => mouseInput = context.ReadValue<Vector2>();
+        controls.Aim.canceled += context => mouseInput = Vector2.zero;
     }
 
 }
