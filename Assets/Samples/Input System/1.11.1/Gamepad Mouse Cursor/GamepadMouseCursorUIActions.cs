@@ -121,7 +121,7 @@ public partial class @GamepadMouseCursorUIActions: IInputActionCollection2, IDis
                     ""name"": ""New action"",
                     ""type"": ""Button"",
                     ""id"": ""81613546-3451-4997-94cf-e91746bc96ab"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false

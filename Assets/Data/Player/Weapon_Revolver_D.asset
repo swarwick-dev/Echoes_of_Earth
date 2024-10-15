@@ -34,4 +34,4 @@ MonoBehaviour:
   gunDistance: 25
   cameraDistance: 6
   weaponIcon: {fileID: 1440921872, guid: 3477fe9a26e0faa42b5a9b5b258229c1, type: 3}
-  weaponInfo: Suppose to one shot enemies
+  weaponInfo: Single shot with power

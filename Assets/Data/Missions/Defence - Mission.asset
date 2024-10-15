@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa8d11053904ce4e8ccccd3c5c1b826, type: 3}
   m_Name: Defence - Mission
   m_EditorClassIdentifier: 
-  missionName: Final Defense
+  missionName: Final Defence
   missionDescription: "Get to the exit point and defend the airplane till it\u2019s
     ready to take off."
   defenceBegun: 0

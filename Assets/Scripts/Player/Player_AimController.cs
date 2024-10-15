@@ -98,6 +98,12 @@ public class Player_AimController : MonoBehaviour
     {
         Transform target = Target();
 
+        //if ( target != null )
+        //    Debug.Log("Update Aim : " + target.transform.name + " : " + target.transform.position);
+        //Debug.Log("Locking to target : " + isLockingToTarget);
+        //Debug.Log("Aiming Precisly : " + isAimingPrecisly);
+        //Debug.Log("Mouse Hit : " + GetMouseHitInfo().transform.name + " : " + GetMouseHitInfo().point);
+
         if (target != null && isLockingToTarget)
         {
             if(target.GetComponent<Renderer>() != null)

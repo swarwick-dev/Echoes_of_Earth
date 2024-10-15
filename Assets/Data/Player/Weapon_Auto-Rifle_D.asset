@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Weapon_Auto-Rifle_D
   m_EditorClassIdentifier: 
   weaponName: Blaster K-567
-  bulletDamage: 12
+  bulletDamage: 20
   bulletsInMagazine: 32
   magazineCapacity: 32
   totalReserveAmmo: 107
@@ -34,4 +34,4 @@ MonoBehaviour:
   gunDistance: 25
   cameraDistance: 6
   weaponIcon: {fileID: -91878611, guid: 3477fe9a26e0faa42b5a9b5b258229c1, type: 3}
-  weaponInfo: Good shreder for enemies
+  weaponInfo: Assault Rifle with a burst fire option

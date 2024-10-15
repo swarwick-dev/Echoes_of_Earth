@@ -79,5 +79,6 @@ public class GameManager : MonoBehaviour
         
         player = FindFirstObjectByType<Player>();
         SetDefaultWeaponsForPlayer();
+        controlsManager.SwitchToCharacterControls();
     }
 }

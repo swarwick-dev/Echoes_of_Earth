@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Car delivery - Mission
   m_EditorClassIdentifier: 
   missionName: A Mechanical Lifeline
-  missionDescription: You need to find a functioning vehicle and deliver it to evacuation
-    spot. The parts of the vehicle can be used to repair evacuation plane.
+  missionDescription: You need to find a functioning vehicle and deliver it to the
+    evacuation spot. The parts of the vehicle can be used to repair the evacuation
+    plane.

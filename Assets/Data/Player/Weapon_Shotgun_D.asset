@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Weapon_Shotgun_D
   m_EditorClassIdentifier: 
   weaponName: Shotgun G7
-  bulletDamage: 21
+  bulletDamage: 30
   bulletsInMagazine: 20
   magazineCapacity: 20
   totalReserveAmmo: 31
@@ -34,4 +34,4 @@ MonoBehaviour:
   gunDistance: 25
   cameraDistance: 6
   weaponIcon: {fileID: 1123339388, guid: 3477fe9a26e0faa42b5a9b5b258229c1, type: 3}
-  weaponInfo: It's like rifle, but an opposite
+  weaponInfo: Single barrel, spread fire. Close distance damage

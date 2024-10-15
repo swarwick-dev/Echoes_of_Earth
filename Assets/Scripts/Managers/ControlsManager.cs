@@ -15,14 +15,17 @@ public class ControlsManager
 
     public void SwitchToCharacterControls()
     {
+        Cursor.visible = false;
         controls.Character.Enable();
         controls.Car.Disable();
         controls.UI.Disable();
         UI.instance.inGameUI.SwitchToCharcaterUI();
+        GameManager.instance.player.SetControlsEnabledTo(true);
     }
 
     public void SwitchToUIControls()
     {
+        Cursor.visible = true;
         controls.UI.Enable();
         controls.Car.Disable();
         controls.Character.Disable();
@@ -30,6 +33,7 @@ public class ControlsManager
 
     public void SwitchToCarControls()
     {
+        Cursor.visible = false;
         controls.Car.Enable();
         controls.UI.Disable();
         controls.Character.Disable();
