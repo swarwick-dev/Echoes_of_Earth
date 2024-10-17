@@ -19,8 +19,11 @@ public class ObjectPool : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-        else 
+        else
+        {
+            Debug.LogWarning("You had more than one Object Manager");
             Destroy(gameObject);
+        }
     }
 
     private void Start()

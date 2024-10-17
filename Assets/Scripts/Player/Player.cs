@@ -32,6 +32,19 @@ public class Player : MonoBehaviour
         controls = ControlsManager.instance.controls.Character;  
     }
 
+    private void Start() {
+        anim = GetComponentInChildren<Animator>();
+        ragdoll = GetComponent<Ragdoll>();
+        health = GetComponent<Player_Health>();
+        aim = GetComponent<Player_AimController>();
+        movement = GetComponent<Player_Movement>();
+        weapon = GetComponent<Player_WeaponController>();
+        weaponVisuals = GetComponent<Player_WeaponVisuals>();
+        interaction = GetComponent<Player_Interaction>();
+        sound = GetComponent<Player_SoundFX>();
+        controls = ControlsManager.instance.controls.Character;  
+    }
+
     private void OnEnable()
     {
         controls.Enable();

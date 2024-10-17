@@ -32,7 +32,15 @@ public class LevelGenerator : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("You had more than one Level Generator");
+            Destroy(gameObject);
+        }
     }
 
     private void Start()

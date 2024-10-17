@@ -15,7 +15,14 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null) {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("You had more than one Time Manager");
+            Destroy(gameObject);
+        }
     }
 
 

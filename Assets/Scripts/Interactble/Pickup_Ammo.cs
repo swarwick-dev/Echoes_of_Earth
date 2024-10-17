@@ -24,6 +24,7 @@ public class Pickup_Ammo : Interactable
     public override void Interaction()
     {
         List<AmmoData> currentAmmoList = smallBoxAmmo;
+        bool bUsed = false;
 
         if(boxType == AmmoBoxType.bigBox)
             currentAmmoList = bigBoxAmmo;
@@ -31,10 +32,12 @@ public class Pickup_Ammo : Interactable
         foreach(AmmoData ammo in currentAmmoList)
         {
             Weapon weapon = weaponController.WeaponInSlots(ammo.weaponType);
-            AddBulletsToWeapon(weapon, GetBulletAmount(ammo));
+            if ( AddBulletsToWeapon(weapon, GetBulletAmount(ammo)) == true )
+                bUsed = true;
         }
 
-        ObjectPool.instance.ReturnObject(gameObject);
+        if (bUsed)
+            ObjectPool.instance.ReturnObject(gameObject);
     }
 
     private int GetBulletAmount(AmmoData ammoData)
@@ -45,12 +48,13 @@ public class Pickup_Ammo : Interactable
 
         return Mathf.RoundToInt(randomAmmoAmount);
     }
-    private void AddBulletsToWeapon(Weapon weapon, int amount)
+    private bool AddBulletsToWeapon(Weapon weapon, int amount)
     {
         if (weapon == null)
-            return;
+            return false;
 
         weapon.totalReserveAmmo += amount;
+        return true;
     }
     private void SetupBoxModel()
     {

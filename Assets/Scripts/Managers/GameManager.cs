@@ -20,13 +20,20 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("You had more than one Game Manager");
+            Destroy(gameObject);
+        }
     }
 
     void Start() {
-        controlsManager = new ControlsManager();
-        controls = controlsManager.controls;
+        controlsManager = ControlsManager.instance;
+        controls = ControlsManager.instance.controls;
         controls.UI.Enable();
     }
 

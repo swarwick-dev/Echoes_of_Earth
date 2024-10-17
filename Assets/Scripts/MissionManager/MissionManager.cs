@@ -11,7 +11,13 @@ public class MissionManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Debug.LogWarning("You had more than one Mission Manager");
+            Destroy(gameObject);
+        }
     }
 
 

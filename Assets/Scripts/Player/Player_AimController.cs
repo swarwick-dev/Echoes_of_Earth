@@ -32,14 +32,19 @@ public class Player_AimController : MonoBehaviour
 
     private Vector2 mouseInput;
     private RaycastHit lastKnownMouseHit;
-
+    private bool isZoomed = false;
+    
     private void Start()
     {
         player = GetComponent<Player>();
         AssignInputEvents();
+        isZoomed = false;
+
     }
     private void Update()
     {
+        mouseInput = ControlsManager.instance.GetMousePosition();
+
         if (player.health.isDead)
             return;
 
@@ -97,7 +102,7 @@ public class Player_AimController : MonoBehaviour
     private void UpdateAimPosition()
     {
         Transform target = null;
-        RaycastHit hitInfo = GetMouseHitInfo();
+        RaycastHit hitInfo = GetAimHitInfo();
         
         target = ( hitInfo.transform.GetComponent<Target>() != null ) ? hitInfo.transform : null;
 
@@ -127,16 +132,16 @@ public class Player_AimController : MonoBehaviour
     {
         Transform target = null;
 
-        if (GetMouseHitInfo().transform.GetComponent<Target>() != null)
+        if (GetAimHitInfo().transform.GetComponent<Target>() != null)
         {
-            target = GetMouseHitInfo().transform;
+            target = GetAimHitInfo().transform;
         }
 
         return target;
     }
     public Transform Aim() => aim;
     public bool CanAimPrecisly() => isAimingPrecisly;
-    public RaycastHit GetMouseHitInfo()
+    public RaycastHit GetAimHitInfo()
     {
         Ray ray = Camera.main.ScreenPointToRay(mouseInput);
 
@@ -161,7 +166,7 @@ public class Player_AimController : MonoBehaviour
     {
         float actualMaxCameraDistance = player.movement.moveInput.y < -.5f ? minCameraDistance : maxCameraDistance;
 
-        Vector3 desiredCameraPosition = GetMouseHitInfo().point;
+        Vector3 desiredCameraPosition = GetAimHitInfo().point;
         Vector3 aimDirection = (desiredCameraPosition - transform.position).normalized;
 
         float distanceToDesierdPosition = Vector3.Distance(transform.position, desiredCameraPosition);
@@ -179,8 +184,24 @@ public class Player_AimController : MonoBehaviour
     {
         controls = player.controls;
 
-        controls.Aim.performed += context => mouseInput = context.ReadValue<Vector2>();
-        controls.Aim.canceled += context => mouseInput = Vector2.zero;
+        controls.Zoom.performed += context =>
+        {
+            // swap to zoom cam
+            isZoomed = true;
+        };
+
+
+        controls.Zoom.canceled += context =>
+        {
+            // swap to prior cam (Drone or 3rd person)
+            isZoomed = false;
+        };
+
+        controls.Drone.performed += context => {
+            // switch to drone cam
+            isZoomed = !isZoomed;
+        };
+
     }
 
 }

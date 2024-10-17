@@ -16,8 +16,14 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else
+        {
+            Debug.LogWarning("You had more than one Audio Manager");
+            Destroy(gameObject);
+        }
 
         mixer.SetFloat("sfx", PlayerPrefs.GetFloat("SFXVolume", 0.75f));
         mixer.SetFloat("bgm", PlayerPrefs.GetFloat("MusicVolume", 0.75f));

@@ -7,7 +7,7 @@ using UnityEngine;
 public class Mission_Training : Mission
 {
     public int amountToKill = 12;
-    public EnemyType enemyType;
+    public EnemyType enemyType = EnemyType.Random;
 
     private int killsToGo;
 
@@ -20,6 +20,8 @@ public class Mission_Training : Mission
 
         List<Enemy> validEnemies = new List<Enemy>();
 
+        // Initialise enemy spawning
+        
         if (enemyType == EnemyType.Random)
             validEnemies = LevelGenerator.instance.GetEnemyList();
         else

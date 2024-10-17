@@ -29,8 +29,15 @@ public class UI : MonoBehaviour
     private List<GameObject> UIPath;
     private void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("You had more than one UI Manager");
+            Destroy(gameObject);
+        }
         
     }
     private void Start()
@@ -127,10 +134,12 @@ public class UI : MonoBehaviour
     }
 
     public void QuitTheGame() {
-       // if (Application.isEditor)
-       //     UnityEditor.EditorApplication.isPlaying = false;
-       // else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
+
     }
 
     private IEnumerator StartGameSequence(int sceneNumber = 1)

@@ -1,3 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Mono.Cecil.Cil;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,11 +19,13 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float turnSpeed;
+    public LayerMask groundMask;
     private float speed;
     private float verticalVelocity;
 
     public Vector2 moveInput { get; private set; }
     private Vector3 movementDirection;
+    private List<Vector3> savedPositions = new List<Vector3>(20);//Stack<Vector3>(10);
 
     private bool isRunning;
 
@@ -66,7 +74,7 @@ public class Player_Movement : MonoBehaviour
     }
     private void ApplyRotation()
     {
-        Vector3 lookingDirection = player.aim.GetMouseHitInfo().point - transform.position;
+        Vector3 lookingDirection = player.aim.GetAimHitInfo().point - transform.position;
         lookingDirection.y = 0f;
         lookingDirection.Normalize();
 
@@ -74,9 +82,58 @@ public class Player_Movement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, turnSpeed * Time.deltaTime);
 
     }
+
+    private bool IsGrounded() {
+        int num = 10;
+        Vector3 point = transform.position;
+        float radius = 0.5f; // The distance around the player to check for ground
+        float radians;
+        float x,z;
+        Vector3 spawnDir;
+        Vector3 spawnPos;
+        RaycastHit hit;
+
+        /* Create a circle of points around the player, checking if they are all above the ground */
+        for (int i = 0; i < num; i++){
+            
+            /* Distance around the circle */  
+            radians = 2 * MathF.PI / num * i;
+            
+            /* Get the vector direction */ 
+            z = MathF.Sin(radians);
+            x = MathF.Cos(radians); 
+            
+            spawnDir = new Vector3 (x, 0, z);
+            spawnPos = point + spawnDir * radius; // Radius is just the distance away from the point
+            
+            if (!Physics.Raycast(spawnPos, Vector3.down, out hit, 3)) {
+                return false;
+            }
+        }
+        return true;
+    }
     private void ApplyMovement()
     {
         movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        
+        if ( IsGrounded() == false ) {
+            savedPositions.Reverse();
+            foreach( Vector3 pos in savedPositions ) {
+                transform.position = pos;
+                if ( IsGrounded() == true ) {
+                    Debug.Log("Moved to safe position: [" + transform.position + "]");
+                    break;
+                }
+            } 
+
+            movementDirection = (movementDirection.normalized *-1);
+            characterController.Move(movementDirection.normalized * Time.deltaTime * (speed*2));
+            movementDirection = (movementDirection.normalized *-1);
+            savedPositions.Clear();
+
+            return;
+        } 
+        
         ApplyGravity();
 
         if (movementDirection.magnitude > 0)
@@ -84,6 +141,7 @@ public class Player_Movement : MonoBehaviour
             PlayFootstepsSFX();
 
             characterController.Move(movementDirection * Time.deltaTime * speed);
+            savedPositions.Add(transform.position);
         }
     }
 
