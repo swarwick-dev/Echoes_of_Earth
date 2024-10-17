@@ -58,4 +58,13 @@ public class Pickup_Weapon : Interactable
 
         ObjectPool.instance.ReturnObject(gameObject);
     }
+
+    public override void AutoPickup() {
+        // If the weapon is already in the player's inventory, don't pick it up again
+        if (weaponController.WeaponInSlots(weaponData.weaponType) == null 
+            && weaponController.HasEmptySlots() == true) {
+                Interaction();
+        }
+        return;
+    }
 }

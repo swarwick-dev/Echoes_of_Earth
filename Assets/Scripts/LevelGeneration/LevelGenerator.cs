@@ -18,7 +18,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private Transform lastLevelPart;
     [SerializeField] private List<Transform> levelParts;
     private List<Transform> currentLevelParts;
-    private List<Transform> generatedLevelParts = new List<Transform>();
+    [SerializeField] private List<Transform> generatedLevelParts = new List<Transform>();
 
     // Snap points
     [SerializeField] private SnapPoint nextSnapPoint;

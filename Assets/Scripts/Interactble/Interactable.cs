@@ -47,8 +47,9 @@ public class Interactable : MonoBehaviour
         if (playerInteraction == null)
             return;
 
-        playerInteraction.GetInteracbles().Add(this);
-        playerInteraction.UpdateClosestInteractble();
+        playerInteraction.FetchInteractables().Add(this);
+        playerInteraction.UpdateClosestInteractable();
+        AutoPickup();
     }
 
     protected virtual void OnTriggerExit(Collider other)
@@ -58,7 +59,11 @@ public class Interactable : MonoBehaviour
         if (playerInteraction == null)
             return;
 
-        playerInteraction.GetInteracbles().Remove(this);
-        playerInteraction.UpdateClosestInteractble();
+        playerInteraction.FetchInteractables().Remove(this);
+        playerInteraction.UpdateClosestInteractable();
+    }
+
+    public virtual void AutoPickup() {
+        return; // Override this in derived classes to perform auto-pickup behaviour
     }
 }

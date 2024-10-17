@@ -29,11 +29,8 @@ public class Player : MonoBehaviour
         weaponVisuals = GetComponent<Player_WeaponVisuals>();
         interaction = GetComponent<Player_Interaction>();
         sound = GetComponent<Player_SoundFX>();
-        controls = ControlsManager.instance.controls.Character;
-
-        
+        controls = ControlsManager.instance.controls.Character;  
     }
-
 
     private void OnEnable()
     {

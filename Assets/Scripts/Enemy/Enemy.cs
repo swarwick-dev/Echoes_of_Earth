@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
 
     public bool inBattleMode { get; private set; }
     protected bool isMeleeAttackReady;
+    private bool isDead = false;
 
     public Transform player {  get; private set; }
     public Animator anim { get; private set; }
@@ -65,6 +66,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
+        if ( isDead == true ) return;
+
         if (ShouldEnterBattleMode())
             EnterBattleMode();
     }
@@ -111,8 +114,8 @@ public class Enemy : MonoBehaviour
     public virtual void Die()
     {
         dropController.DropItems();
-
-
+        isDead = true;
+        inBattleMode = false;
         anim.enabled = false;
         agent.isStopped = true;
         agent.enabled = false;
@@ -160,9 +163,9 @@ public class Enemy : MonoBehaviour
     public virtual void BulletImpact( Vector3 force,Vector3 hitPoint,Rigidbody rb)
     {
         if(health.ShouldDie())
-            StartCoroutine(DeathImpactCourutine(force,hitPoint,rb));
+            StartCoroutine(DeathImpactCoroutine(force,hitPoint,rb));
     }
-    private IEnumerator DeathImpactCourutine(Vector3 force, Vector3 hitPoint, Rigidbody rb)
+    private IEnumerator DeathImpactCoroutine(Vector3 force, Vector3 hitPoint, Rigidbody rb)
     {
         yield return new WaitForSeconds(.1f);
 
@@ -171,7 +174,12 @@ public class Enemy : MonoBehaviour
 
     public void FaceTarget(Vector3 target,float turnSpeed = 0)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
+        Quaternion targetRotation;
+
+        if ( (target - transform.position) != Vector3.zero)
+            targetRotation = Quaternion.LookRotation(target - transform.position);
+        else
+            return;
 
         Vector3 currentEulerAngels = transform.rotation.eulerAngles;
 

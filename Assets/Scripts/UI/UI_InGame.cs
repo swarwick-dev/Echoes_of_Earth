@@ -74,6 +74,7 @@ public class UI_InGame : MonoBehaviour
     }
     public void UpdateHealthUI(float currentHealth, float maxHealth)
     {
+        Debug.Log("Updating health UI: " + currentHealth + "/" + maxHealth);
         healthBar.fillAmount = currentHealth / maxHealth;
     }
 

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public ControlsManager controlsManager { get; private set; }
     public InputSystem_Actions controls { get; private set; }
     public GameObject playerObj { get; private set; }
+    int currentMissionIndex;
 
     [Header("Settings")]
     public bool friendlyFire;
@@ -27,28 +28,22 @@ public class GameManager : MonoBehaviour
         controlsManager = new ControlsManager();
         controls = controlsManager.controls;
         controls.UI.Enable();
-        
-        //playerObj = Instantiate(playerPrefab, new Vector3(0, 0.5f, 0), Quaternion.identity);
-        //DontDestroyOnLoad(playerObj);
-        //player = playerObj.GetComponent<Player>();
     }
 
   
     public void GameStart(int missionIndex)
     {
+        currentMissionIndex = missionIndex;
         controls.UI.Disable();
         controls.Character.Enable();
         controls.Car.Disable();
 
-        StartCoroutine(WaitForSceneToLoad(missionIndex));
+        UI.instance.ResetUIPath();
 
-       
-
-        //LevelGenerator.instance.InitializeGeneration();
-        // We start selected mission in a LevelGenerator script ,after we done with level creation.
+        StartCoroutine(WaitForSceneToLoad());
     }
 
-    public void RestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    public void RestartScene() => GameStart(currentMissionIndex);//SceneManager.LoadScene(currentMissionIndex);
 
     public void GameCompleted()
     {
@@ -69,16 +64,22 @@ public class GameManager : MonoBehaviour
         player.weapon.SetDefaultWeapon(newList);
     }
 
-    private IEnumerator WaitForSceneToLoad(int sceneNumber)
+    private IEnumerator WaitForSceneToLoad()
     {
-        var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneNumber, LoadSceneMode.Single);
+        // Put up load screen
+
+        var asyncLoadLevel = SceneManager.LoadSceneAsync(currentMissionIndex, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
+
+        // Take down load screen
         
         player = FindFirstObjectByType<Player>();
         SetDefaultWeaponsForPlayer();
         controlsManager.SwitchToCharacterControls();
+        if ( currentMissionIndex == 1)
+            LevelGenerator.instance.InitializeGeneration();
     }
 }

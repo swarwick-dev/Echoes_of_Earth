@@ -9,7 +9,7 @@ public class Player_Interaction : MonoBehaviour
     private void Start()
     {
         Player player = GetComponent<Player>();
-        player.controls.Interact.performed += context => InteractWithClosest();
+        player.controls.InteractReload.performed += context => InteractWithClosest();
     }
 
     private void InteractWithClosest()
@@ -17,17 +17,15 @@ public class Player_Interaction : MonoBehaviour
         closestInteractable?.Interaction();
         interactables.Remove(closestInteractable);
 
-        UpdateClosestInteractble();
+        UpdateClosestInteractable();
     }
 
-    public void UpdateClosestInteractble()
+    public void UpdateClosestInteractable()
     {
         closestInteractable?.HighlightActive(false);
         closestInteractable = null;
 
         float closestDistance = float.MaxValue;
-
-
 
         foreach (Interactable interactable in interactables)
         {
@@ -43,6 +41,8 @@ public class Player_Interaction : MonoBehaviour
         closestInteractable?.HighlightActive(true);
     }
 
+    public Interactable GetClosestInteractable() => closestInteractable;
 
-    public List<Interactable> GetInteracbles() => interactables;
+
+    public List<Interactable> FetchInteractables() => interactables;
 }

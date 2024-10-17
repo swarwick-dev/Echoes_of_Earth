@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -15,12 +16,17 @@ public class UI : MonoBehaviour
     public UI_Settings settingsUI { get; private set; }
     public GameObject victoryScreenUI;
     public GameObject pauseUI;
+    public GameObject mainMenuUI;
+    public GameObject gameUI;
+    public GameObject gameOver;
 
 
     [SerializeField] private GameObject[] UIElements;
 
     [Header("Fade Image")]
     [SerializeField] private Image fadeImage;
+
+    private List<GameObject> UIPath;
     private void Awake()
     {
         instance = this;
@@ -29,6 +35,7 @@ public class UI : MonoBehaviour
     }
     private void Start()
     {
+        UIPath = new List<GameObject> { mainMenuUI };
         inGameUI = GetComponentInChildren<UI_InGame>(true);
         weaponSelection = GetComponentInChildren<UI_WeaponSelection>(true);
         gameOverUI = GetComponentInChildren<UI_GameOver>(true);
@@ -53,8 +60,22 @@ public class UI : MonoBehaviour
          
         uiToSwitchOn.SetActive(true);
 
+        UIPath.Add(uiToSwitchOn);
+
         if (uiToSwitchOn == settingsUI.gameObject)
             settingsUI.LoadSettings();
+    }
+
+    public void Back() {
+        if ( UIPath.Count > 1) {
+            SwitchTo(UIPath.Last());
+            UIPath.RemoveAt(UIPath.Count - 1);
+        }
+    }
+
+    public void ResetUIPath() {
+        UIPath.Clear();
+        UIPath.Add(mainMenuUI);
     }
 
     public void StartTheGame(int sceneNumber) => GameManager.instance.GameStart(sceneNumber);//StartCoroutine(StartGameSequence(sceneNumber));
@@ -157,7 +178,7 @@ public class UI : MonoBehaviour
         fadeImage.color = new Color(currentColor.r, currentColor.g, currentColor.b, targetAlpha);
 
 
-        // Call the cimpletion method if it exists
+        // Call the completion method if it exists
         onComplete?.Invoke();
     }
 
@@ -168,6 +189,13 @@ public class UI : MonoBehaviour
     }
     public void LoadMainMenu() {
         SceneManager.LoadScene(0);
+    }
+
+    private void AssignInputEvents()
+    {
+        InputSystem_Actions.UIActions controls = ControlsManager.instance.controls.UI;
+
+        controls.Back.performed += context => Back();
     }
 
     [ContextMenu("Assign Audio To Buttons")]

@@ -12,6 +12,7 @@ public class Player_WeaponController : MonoBehaviour
 
     [SerializeField] private List<Weapon_Data> defaultWeaponData;
     [SerializeField] private Weapon currentWeapon;
+    int currentWeaponIndex;
     private bool weaponReady;
     private bool isShooting;
 
@@ -25,7 +26,7 @@ public class Player_WeaponController : MonoBehaviour
 
     [Header("Inventory")]
 
-    [SerializeField] private int maxSlots = 2;
+    [SerializeField] private int maxSlots = 4;
     [SerializeField] private List<Weapon> weaponSlots;
 
     [SerializeField] private GameObject weaponPickupPrefab;
@@ -192,6 +193,9 @@ public class Player_WeaponController : MonoBehaviour
 
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
         rbNewBullet.linearVelocity = bulletsDirection * bulletSpeed;
+
+        if ( currentWeapon.bulletsInMagazine <= 0 && currentWeapon.totalReserveAmmo > 0)
+            Reload(); 
     }
 
     private void Reload()
@@ -200,9 +204,6 @@ public class Player_WeaponController : MonoBehaviour
         player.weaponVisuals.PlayReloadAnimation();
 
         player.weaponVisuals.CurrentWeaponModel().realodSfx.Play();
-
-        // We do actuall refill of bullets in Playe_AnimationEvents
-        // We UpdateWeaponUI in Player_AnimationEvents
     }
 
 
@@ -246,6 +247,29 @@ public class Player_WeaponController : MonoBehaviour
         }
     }
 
+    private void SwitchToNextWeapon() {
+        if (weaponSlots.Count <= 1)
+            return;
+
+        currentWeaponIndex = (currentWeaponIndex + 1) % weaponSlots.Count;
+        EquipWeapon(currentWeaponIndex);
+
+    }
+
+    private void SwitchToPreviousWeapon() {
+        if (weaponSlots.Count <= 1)
+            return;
+
+        currentWeaponIndex--;
+        if (currentWeaponIndex < 0)
+            currentWeaponIndex = weaponSlots.Count - 1;
+
+        EquipWeapon(currentWeaponIndex);
+    }
+
+    public bool HasEmptySlots() => weaponSlots.Count < maxSlots;
+
+
     #region Input Events
 
     private void AssignInputEvents()
@@ -255,15 +279,12 @@ public class Player_WeaponController : MonoBehaviour
         controls.Fire.performed += context => isShooting = true;
         controls.Fire.canceled += context => isShooting = false;
 
-        // controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
-        // controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
-        // controls.Character.EquipSlot3.performed += context => EquipWeapon(2);
-        // controls.Character.EquipSlot4.performed += context => EquipWeapon(3);
-        // controls.Character.EquipSlot5.performed += context => EquipWeapon(4);
+        controls.Next.performed += context => SwitchToNextWeapon();
+        controls.Previous.performed += context => SwitchToPreviousWeapon();
 
         // controls.Character.DropCurrentWeapon.performed += context => DropWeapon();
 
-        controls.Interact.performed += context =>
+        controls.InteractReload.performed += context =>
         {
             if (currentWeapon.CanReload() && WeaponReady())
             {

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -69,12 +70,10 @@ public class Player_AimController : MonoBehaviour
         if (aimLaser.enabled == false)
             return;
 
-
         WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
 
         weaponModel.transform.LookAt(aim);
         weaponModel.gunPoint.LookAt(aim);
-
 
         Transform gunPoint = player.weapon.GunPoint();
         Vector3 laserDirection = player.weapon.BulletDirection();
@@ -94,9 +93,13 @@ public class Player_AimController : MonoBehaviour
         aimLaser.SetPosition(1, endPoint);
         aimLaser.SetPosition(2, endPoint + laserDirection * laserTipLenght);
     }
+
     private void UpdateAimPosition()
     {
-        Transform target = Target();
+        Transform target = null;
+        RaycastHit hitInfo = GetMouseHitInfo();
+        
+        target = ( hitInfo.transform.GetComponent<Target>() != null ) ? hitInfo.transform : null;
 
         //if ( target != null )
         //    Debug.Log("Update Aim : " + target.transform.name + " : " + target.transform.position);
@@ -106,23 +109,19 @@ public class Player_AimController : MonoBehaviour
 
         if (target != null && isLockingToTarget)
         {
-            if(target.GetComponent<Renderer>() != null)
+            if(target.GetComponent<Renderer>() != null) {
                 aim.position = target.GetComponent<Renderer>().bounds.center;
+            }
             else
                 aim.position = target.position;
 
-
             return;
         }   
-
-        aim.position = GetMouseHitInfo().point;
+        aim.position = hitInfo.point;
 
         if (!isAimingPrecisly)
             aim.position = new Vector3(aim.position.x, transform.position.y + 1, aim.position.z);
     }
-
-
-
 
     public Transform Target()
     {
@@ -155,10 +154,10 @@ public class Player_AimController : MonoBehaviour
     private void UpdateCameraPosition()
     {
         cameraTarget.position =
-                    Vector3.Lerp(cameraTarget.position, DesieredCameraPosition(), cameraSensetivity * Time.deltaTime);
+                    Vector3.Lerp(cameraTarget.position, DesiredCameraPosition(), cameraSensetivity * Time.deltaTime);
     }
 
-    private Vector3 DesieredCameraPosition()
+    private Vector3 DesiredCameraPosition()
     {
         float actualMaxCameraDistance = player.movement.moveInput.y < -.5f ? minCameraDistance : maxCameraDistance;
 

@@ -14,13 +14,8 @@ public enum AmmoBoxType { smallBox,bigBox}
 public class Pickup_Ammo : Interactable
 {
     [SerializeField] private AmmoBoxType boxType;
-
-
-
-
     [SerializeField] private List<AmmoData> smallBoxAmmo;
     [SerializeField] private List<AmmoData> bigBoxAmmo;
-
     [SerializeField] private GameObject[] boxModel;
 
     private void Start() => SetupBoxModel();    
@@ -42,12 +37,10 @@ public class Pickup_Ammo : Interactable
         ObjectPool.instance.ReturnObject(gameObject);
     }
 
-
     private int GetBulletAmount(AmmoData ammoData)
     {
         float min = Mathf.Min(ammoData.minAmount,ammoData.maxAmount);
         float max = Mathf.Max(ammoData.minAmount,ammoData.maxAmount);
-
         float randomAmmoAmount = Random.Range(min,max);
 
         return Mathf.RoundToInt(randomAmmoAmount);
@@ -65,7 +58,6 @@ public class Pickup_Ammo : Interactable
         {
             boxModel[i].SetActive(false);
 
-
             if (i == ((int)boxType))
             {
                 boxModel[i].SetActive(true);
@@ -73,5 +65,7 @@ public class Pickup_Ammo : Interactable
             }
         }
     }
+
+    public override void AutoPickup() => Interaction();
 
 }

@@ -44,7 +44,9 @@ public class ZoneLimitation : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(WallActivationCo());
-        Debug.Log("My sensors are going crazy, I think it's dangerous!");
+        if (other.GetComponentInChildren<Player>() != null ){
+            StartCoroutine(WallActivationCo());
+            Debug.Log("My sensors are going crazy, I think it's dangerous!");
+        }
     }
 }
